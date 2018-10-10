@@ -1,7 +1,73 @@
-/*
- * Create a list that holds all of your cards
- */
+// Global Variables
+const cardContainer = document.querySelector('.deck');
 
+
+
+const myCardList = [];
+
+const cardDiamond = {
+	liClass: 'card diamond',
+	iClass: 'fa fa-diamond'
+}
+
+const cardPaperplane = {
+	liClass: 'card paper-plane',
+	iClass: 'fa fa-paper-plane-o'
+}
+
+const cardAnchor = {
+	liClass: 'card anchor',
+	iClass: 'fa fa-anchor'
+}
+
+const cardBolt = {
+	liClass: 'card bolt',
+	iClass: 'fa fa-bolt'
+}
+
+const cardCube = {
+	liClass: 'card cube',
+	iClass: 'fa fa-cube'
+}
+
+const cardLeaf = {
+	liClass: 'card leaf',
+	iClass: 'fa fa-leaf'
+}
+
+const cardBicycle = {
+	liClass: 'card bicycle',
+	iClass: 'fa fa-bicycle'
+}	
+
+const cardBomb = {
+	liClass: 'card bomb',
+	iClass: 'fa fa-bomb'
+}
+
+function sendCardObj(...cardObj) {
+	for (const item of cardObj) {
+		myCardList.push(item);
+	}
+}
+
+sendCardObj(cardDiamond, cardPaperplane, cardAnchor, cardBolt, cardCube, cardLeaf, cardBicycle, cardBomb);
+
+function createCardsHTML(cards) {
+	const cardHTML = `<li class='${cards.liClass}'>
+											<i class='${cards.iClass}'></i>
+										</li>`
+	return cardHTML;
+}
+
+function injectCardGrid(funcShuffle) {
+	for (let i = 0; i < 2; i++) {
+		for (let j = 0; j < myCardList.length; j++) {
+			cardContainer.innerHTML += createCardsHTML(myCardList[j]);
+		}
+	}
+}
+injectCardGrid(shuffle(myCardList));
 
 /*
  * Display the cards on the page
