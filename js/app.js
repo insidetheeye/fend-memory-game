@@ -1,10 +1,16 @@
 // Global Variables
 const cardContainer = document.querySelector('.deck');
 
+let storedCardsArr = [];
 
+const movesEl = document.getElementById('playerMoves');
+
+let currentVal = 0;
 
 const myCardList = [];
 
+
+// Create and construct card grid
 const cardDiamond = {
 	liClass: 'card diamond',
 	iClass: 'fa fa-diamond'
@@ -69,12 +75,6 @@ function injectCardGrid(funcShuffle) {
 }
 injectCardGrid(shuffle(myCardList));
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -102,3 +102,71 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
+ function showCard(selCard) {
+ 	selCard.classList.toggle('show');
+ 	selCard.classList.toggle('open');
+ }
+
+ function noMatch(card) {
+ 	card.classList.toggle('no-match');
+ }
+
+ function storeCards(selCards) {
+ 	storedCardsArr.push(selCards);
+ }
+
+ function cardsMatch(matchedEl) {
+ 	matchedEl.classList.toggle('.match');
+ }
+
+ function setMoves() {
+ 	movesEl.textContent = currentVal;
+
+ }
+ setMoves();
+
+ function incrMoves() {
+ 	// debugger;
+ 	movesEl.textContent = currentVal++;
+ }
+
+
+
+ cardContainer.addEventListener('click', function(e) {
+ 	const elClicked = e.target;
+ 	
+ 	if (elClicked.nodeName === 'LI') {
+ 		showCard(elClicked);
+ 		storeCards(elClicked);
+ 	}
+
+ 	if (storedCardsArr.length === 2) {		
+ 		const firstCard = storedCardsArr[0].classList;
+ 		const secondCard = storedCardsArr[1].classList;
+ 		let firstCardList = [...firstCard];
+ 		let secondCardList = [...secondCard];
+
+ 		incrMoves();
+
+ 		if (firstCardList.sort().toString() === secondCardList.sort().toString()) {
+ 			// cards matched
+ 			storedCardsArr[0].classList.toggle('match');
+ 			storedCardsArr[1].classList.toggle('match');
+ 			storedCardsArr.length = 0;
+ 		} else {
+ 			// cards do not match
+ 			noMatch(storedCardsArr[0]);
+ 			noMatch(storedCardsArr[1]);
+ 			setTimeout(function() {
+ 				showCard(storedCardsArr[0]);
+ 				showCard(storedCardsArr[1]);
+ 				noMatch(storedCardsArr[0]);
+ 				noMatch(storedCardsArr[1]);
+ 				storedCardsArr.length = 0;
+ 			}, 1000);
+ 		}
+ 	}
+ });
+
