@@ -85,6 +85,10 @@ h1 {
     background: #f45a5a;
 }
 
+.deck .card.disabled {
+    pointer-events: none;
+}
+
 /*
  * Styles for the Score Panel
  */
@@ -110,4 +114,69 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.score-panel .restart:hover {
+    transform: scale(1.1);
+}
+
+.ready-modal, .victory-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255,255,255,0.9);
+}
+
+.ready-modal div,
+.victory-modal div {
+    text-align: center;
+    margin-top: 25%;
+}
+
+.ready-modal div button,
+.victory-modal div button {
+    padding: 0.5em 2em;
+    font-size: 1em;
+    background: #fff;
+    color: #000;
+    border: solid 1px #000;
+    border-radius: 3px;
+    transition: all 0.2s ease-in-out;
+}
+
+.ready-modal div button:hover,
+.victory-modal div button:hover{
+    cursor: pointer;
+    background: #000;
+    color: #fff;
+}
+
+.victory-modal {
+    display: none;
+}
+
+.game-reset {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+}
+
+.game-reset div {
+    width: 320px;
+    background: #fff;
+    text-align: center;
+    padding: 2em;
+    margin-top: 23em;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.7);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.7);
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.7);
 }

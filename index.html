@@ -7,6 +7,7 @@
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/animate.css">
 </head>
 <body>
 
@@ -24,7 +25,7 @@
 
         	<span id="playerMoves" class="moves"></span> Moves
 
-            <div class="restart">
+            <div id ="restartGame" class="restart">
         		<i class="fa fa-repeat"></i>
         	</div>
         </section>
@@ -33,6 +34,29 @@
         </ul>
     </div>
 
-    <script src="js/app.js"></script>
+<!--     <div class="ready-modal">
+        <div>
+            <h1>Ready to Play?</h1>
+            <button id="btnStartGame">Let's do it!</button>    
+        </div>
+    </div> -->
+
+    <div class="victory-modal">
+      <div>
+        <h1>You Won!</h1>
+        <button>Play Again!</button>
+        <button>I'm Finished Playing</button>
+      </div>
+    </div>
+
+    <div class="game-reset">
+      <div class="animated flipInX fadeOut">
+        <i class="fa fa-repeat"></i>
+        <h1>Game Reset!</h1>
+      </div>
+    </div>
+
+    <!-- <script src="js/app.js"></script> -->
+    <script src="js/appp.js"></script>
 </body>
 </html>
