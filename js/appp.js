@@ -9,6 +9,7 @@ const memoryGame = function() {
 
 	const cardContainer = document.querySelector('.deck'),
 				movesEl = document.getElementById('playerMoves'),
+				victoryModal = document.querySelector('.victory-modal'),
 				cardClassList = [],
 				matchedCards = [];
 
@@ -66,7 +67,7 @@ const memoryGame = function() {
 	}
 
 	/*
-		Create function to that will create
+		function that will create
 		and add card HTML to the board
 	*/
 	const createAndInject = function() {
@@ -138,19 +139,20 @@ const memoryGame = function() {
 		}
 
 		if (storedCards.length === 2) {
-			// debugger;
+			
 			const firstCard = storedCards[0].classList;
 			const secondCard = storedCards[1].classList;
 			let firstCardList = [...firstCard];
 			let secondCardList = [...secondCard];
 
 			setEvt(false, cardContainer, playGame);
-			// incrMoves(movesCount);
+			incrMoves(movesEl);
+			starRating();
 
 			if (firstCardList.sort().toString() === secondCardList.sort().toString()) {
 
-				cardsMatch(storedCards[0]);
-				cardsMatch(storedCards[1]);
+				cardsMatch(storedCards[0], 'match');
+				cardsMatch(storedCards[1], 'match');
 
 				storeCards(storedCards[0], matchedCards);
 				storeCards(storedCards[1], matchedCards);
@@ -181,38 +183,12 @@ const memoryGame = function() {
 
 		if (matchedCards.length === 16) {
 
-			setEvt();
+			setEvt(false, cardContainer, playGame);
 			victoryModal.style.display = 'block';
+
 		}
 
 	}
-
-
-	///////////////////////////////////////////
-	//
-	// Section: Set Event Listeners 
-	//
-	///////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -266,8 +242,8 @@ const memoryGame = function() {
 
 	// increment moves counter following a turn
 	const incrMoves = function(variable) {
-		variable++;
-		setMoves();
+		variable.textContent++;
+		// setMoves();
 	}
 
 	/*
@@ -294,14 +270,92 @@ const memoryGame = function() {
 		}
 	}
 
+	// stopwatch
+	let seconds = 0,
+			minutes = 0,
+			hours = 0;
+
+	const time = document.getElementById('gameTimer');
+
+	const addTime = function() {
+
+		seconds++;
+
+		if (seconds >= 60) {
+			seconds = 0;
+			minutes++;
+
+			if (minutes >= 60) {
+				minutes = 0;
+				hours++;
+			}
+		}
+
+		time.textContent = 
+		(hours ? (hours > 9 ? hours : "0" + hours) : "00") 
+    + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") 
+    + ":" + (seconds > 9 ? seconds : "0" + seconds);
+	}
+
+	const timer = function() {
+		setTimeout(addTime, 1000);
+	}
+
+
+	const starRating = function() {
+
+		const stars = document.getElementsByClassName('fa-star');
+
+		if (movesEl.innerHTML == '8' && matchedCards.length < 8) {
+			stars[2].classList.add('fadeOut');
+			setTimeout(function() {
+				stars[2].style.visibility = 'hidden';
+			}, 900);
+		} 
+
+		else if (movesEl.innerHTML == '16' && matchedCards.length < 16) {
+			stars[1].classList.add('fadeOut');
+			setTimeout(function() {
+				stars[1].style.visibility = 'hidden';
+			}, 900);
+		}
+	}
+
+
+	///////////////////////////////////////////
+	//
+	// Section: Modals
+	//
+	///////////////////////////////////////////
+
+	const readyModal = document.querySelector('.ready-to-play');
+
+	const readyToPlay = function(e) {
+		
+		const btn = e.target;
+
+		if (btn.nodeName === 'BUTTON') {
+			readyModal.classList.add('fadeOut');
+			setTimeout(function() {
+				readyModal.style.display = 'none';
+			}, 900);
+			timer();
+			playGame();
+		}
+		
+	}
+
+	readyModal.addEventListener('click', readyToPlay);
+
 
 
 
 	createAndInject();
-	playGame();
+	// playGame();
 } // end memoryGame
 
 memoryGame();
+
 
 
 

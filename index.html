@@ -19,13 +19,17 @@
         <section class="score-panel">
         	<ul class="stars">
         		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
+        		<li><i class="fa fa-star animated"></i></li>
+        		<li><i class="fa fa-star animated"></i></li>
         	</ul>
 
-        	<span id="playerMoves" class="moves"></span> Moves
+        	<span id="playerMoves" class="moves">0</span> Moves
+          
+          <div class="timer">
+            <time id="gameTimer">00:00:00</time>
+          </div>
 
-            <div id ="restartGame" class="restart">
+          <div id ="restartGame" class="restart">
         		<i class="fa fa-repeat"></i>
         	</div>
         </section>
@@ -40,6 +44,13 @@
             <button id="btnStartGame">Let's do it!</button>    
         </div>
     </div> -->
+    <div class="ready-to-play animated">
+      <div>
+        <i class="fa fa-gamepad"></i>
+        <h1>Ready to Play?</h1>
+        <button>Let's Do It!</button>
+      </div>
+    </div>
 
     <div class="victory-modal">
       <div>

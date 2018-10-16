@@ -137,7 +137,8 @@ h1 {
 }
 
 .ready-modal div button,
-.victory-modal div button {
+.victory-modal div button,
+.ready-to-play div button {
     padding: 0.5em 2em;
     font-size: 1em;
     background: #fff;
@@ -148,7 +149,8 @@ h1 {
 }
 
 .ready-modal div button:hover,
-.victory-modal div button:hover{
+.victory-modal div button:hover,
+.ready-to-play div button:hover {
     cursor: pointer;
     background: #000;
     color: #fff;
@@ -158,16 +160,20 @@ h1 {
     display: none;
 }
 
-.game-reset {
+.game-reset, .ready-to-play {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
+}
+
+.game-reset {
     display: none;
 }
 
-.game-reset div {
+.game-reset div,
+.ready-to-play div {
     width: 320px;
     background: #fff;
     text-align: center;
@@ -179,4 +185,9 @@ h1 {
     -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.7);
     -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.7);
     box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.7);
+}
+
+.timer {
+    display: inline-block;
+    margin-left: 8em;
 }
