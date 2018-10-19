@@ -109,6 +109,7 @@ h1 {
 .score-panel .stars li {
     list-style: none;
     display: inline-block;
+    transition: all 0.2s ease-in-out;
 }
 
 .score-panel .restart {
@@ -121,7 +122,7 @@ h1 {
     transform: scale(1.1);
 }
 
-.ready-modal, .victory-modal {
+.ready-to-play, .victory-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -130,7 +131,7 @@ h1 {
     background: rgba(255,255,255,0.9);
 }
 
-.ready-modal div,
+.ready-to-play div,
 .victory-modal div {
     text-align: center;
     margin-top: 25%;
@@ -172,8 +173,7 @@ h1 {
     display: none;
 }
 
-.game-reset div,
-.ready-to-play div {
+.game-reset div {
     width: 320px;
     background: #fff;
     text-align: center;

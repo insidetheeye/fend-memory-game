@@ -1,5 +1,5 @@
 
-const memoryGame = function() {
+
 
 	///////////////////////////////////////////
 	//
@@ -7,14 +7,20 @@ const memoryGame = function() {
 	//
 	//////////////////////////////////////////
 
-	const cardContainer = document.querySelector('.deck'),
+	const cardContainer = document.getElementById('cardDeck'),
+				card = document.getElementsByClassName('card'),
 				movesEl = document.getElementById('playerMoves'),
 				victoryModal = document.querySelector('.victory-modal'),
+				readyModal = document.querySelector('.ready-to-play'),
+				restartBtn = document.getElementById('restartGame'),
+				stars = document.getElementsByClassName('fa-star'),
 				cardClassList = [],
-				matchedCards = [];
+				matchedCards = [],
+				deckArr = [];
 
 	let storedCards = [],
 			movesCount = 0;
+
 
 	///////////////////////////////////////////
 	//
@@ -71,7 +77,6 @@ const memoryGame = function() {
 		and add card HTML to the board
 	*/
 	const createAndInject = function() {
-
 		/* 
 			function to add each card object to 
 			the cardClassList array 
@@ -97,8 +102,9 @@ const memoryGame = function() {
 		*/
 		function injectCardGrid() {
 			for (let i = 0; i < 2; i++) {
-				for (let j = 0; j < cardClassList.length; j++) {
+				for (let j = 0; j < cardClassList.length; j++) {	
 					cardContainer.innerHTML += createCardsHTML(cardClassList[j]);
+					
 				}
 			}
 		}
@@ -113,8 +119,7 @@ const memoryGame = function() {
 			cardBicycle,
 			cardBomb );
 
-		shuffle(cardClassList);
-
+		// shuffle(cardClassList);
 		injectCardGrid();
 
 	}
@@ -214,6 +219,14 @@ const memoryGame = function() {
 	    return array;
 	}
 
+	const shuffleDeck = function() {
+
+		for (let i = cardContainer.children.length; i >= 0; i--) {
+		    cardContainer.appendChild(cardContainer.children[Math.random() * i | 0]);
+		}
+	}
+
+
 	// toggle CSS classes for showing a card
 	const showCard = function(selCard, reqClassOne, reqClassTwo) {
 		selCard.classList.toggle(reqClassOne);
@@ -301,24 +314,38 @@ const memoryGame = function() {
 		setTimeout(addTime, 1000);
 	}
 
-
+	
+	// Function which removes stars based on user's performance.
 	const starRating = function() {
 
-		const stars = document.getElementsByClassName('fa-star');
-
 		if (movesEl.innerHTML == '8' && matchedCards.length < 8) {
-			stars[2].classList.add('fadeOut');
-			setTimeout(function() {
-				stars[2].style.visibility = 'hidden';
-			}, 900);
+			stars[2].style.opacity = 0.2;
 		} 
 
 		else if (movesEl.innerHTML == '16' && matchedCards.length < 16) {
-			stars[1].classList.add('fadeOut');
-			setTimeout(function() {
-				stars[1].style.visibility = 'hidden';
-			}, 900);
+			stars[1].style.opacity = 0.2;
 		}
+	}
+
+	// reset the game
+	const reset = function() {
+		/*
+			Defining the cards variable at the global
+			level wasn't populating the array. Defining
+			locally does...unsure why this is
+		*/
+		const cards = [...card];
+
+		for (let i = 0; i < cards.length; i++) {
+			cards[i].classList.remove('show', 'open', 'match');
+		}
+
+		for (let i = 0; i < stars.length; i++) {
+			stars[i].style.opacity = 1;
+		}
+
+		movesEl.textContent = 0;
+
 	}
 
 
@@ -328,7 +355,6 @@ const memoryGame = function() {
 	//
 	///////////////////////////////////////////
 
-	const readyModal = document.querySelector('.ready-to-play');
 
 	const readyToPlay = function(e) {
 		
@@ -345,16 +371,37 @@ const memoryGame = function() {
 		
 	}
 
+	// restart button and corresponding modal
+
+	const resetGame = function() {
+
+		const resetMsg = document.querySelector('.game-reset');
+
+		resetMsg.style.display = 'block';
+		reset();
+		setTimeout(function() {
+			resetMsg.style.display = 'none';
+		}, 1500);
+	}
+
+
+	///////////////////////////////////////////
+	//
+	// Section: Event Listeners
+	//
+	///////////////////////////////////////////
+
 	readyModal.addEventListener('click', readyToPlay);
-
-
+	restartBtn.addEventListener('click', resetGame);
 
 
 	createAndInject();
-	// playGame();
-} // end memoryGame
+	
+	
+	
+ 
 
-memoryGame();
+
 
 
 
