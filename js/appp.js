@@ -14,12 +14,16 @@
 				readyModal = document.querySelector('.ready-to-play'),
 				restartBtn = document.getElementById('restartGame'),
 				stars = document.getElementsByClassName('fa-star'),
+				time = document.getElementById('gameTimer'),
 				cardClassList = [],
-				matchedCards = [],
 				deckArr = [];
 
 	let storedCards = [],
-			movesCount = 0;
+			matchedCards = [],
+			movesCount = 0,
+			seconds = 0,
+			minutes = 0,
+			hours = 0;
 
 
 	///////////////////////////////////////////
@@ -28,10 +32,9 @@
 	//
 	///////////////////////////////////////////
 
-	/* 
-		Create objects to hold the required
-	  classes for each card
-	*/
+	 
+	// Create objects class properties for each card
+	
 	const cardDiamond = {
 		liClass: 'card diamond',
 		iClass: 'fa fa-diamond'
@@ -72,34 +75,26 @@
 		iClass: 'fa fa-bomb'
 	}
 
-	/*
-		function that will create
-		and add card HTML to the board
-	*/
+	// function which builds and adds the cards to game board
 	const createAndInject = function() {
-		/* 
-			function to add each card object to 
-			the cardClassList array 
-		*/
+
+		// function to push each card object to an array
 		function sendCardObj(...cardObj) {
 			for (const item of cardObj) {
 				cardClassList.push(item);
 			}
 		}
-		/*
-			function that returns our card
-			HTML
-		*/
+
+		// function which defines the HTML structure of each card
 		function createCardsHTML(cards) {
 			const cardHTML = `<li class='${cards.liClass}'>
 													<i class='${cards.iClass}'></i>
 												</li>`
 			return cardHTML;
 		}
-		/*
-			loop through the cardClassList array and add
-			cards to the board
-		*/
+
+		// function which loops through the array holding the card CSS properties
+		// and adds the card HTML to the board
 		function injectCardGrid() {
 			for (let i = 0; i < 2; i++) {
 				for (let j = 0; j < cardClassList.length; j++) {	
@@ -109,6 +104,7 @@
 			}
 		}
 
+		// push card objects to the array
 		sendCardObj(
 			cardDiamond,
 			cardPaperplane,
@@ -118,8 +114,8 @@
 			cardLeaf,
 			cardBicycle,
 			cardBomb );
-
-		// shuffle(cardClassList);
+		
+		// build and add the cards
 		injectCardGrid();
 
 	}
@@ -189,7 +185,12 @@
 		if (matchedCards.length === 16) {
 
 			setEvt(false, cardContainer, playGame);
-			victoryModal.style.display = 'block';
+			stopTimer();
+
+			setTimeout(function() {
+				victoryModal.style.display = 'block';
+				gameFinished();
+			}, 900);
 
 		}
 
@@ -204,28 +205,15 @@
 	//
 	///////////////////////////////////////////
 
-	// Shuffle function from http://stackoverflow.com/a/2450976
-	function shuffle(array) {
-	    var currentIndex = array.length, temporaryValue, randomIndex;
-
-	    while (currentIndex !== 0) {
-	        randomIndex = Math.floor(Math.random() * currentIndex);
-	        currentIndex -= 1;
-	        temporaryValue = array[currentIndex];
-	        array[currentIndex] = array[randomIndex];
-	        array[randomIndex] = temporaryValue;
-	    }
-
-	    return array;
-	}
-
+	/*
+		function to effectively shuffle cards once they are added to the page
+		credit: https://stackoverflow.com/questions/7070054/javascript-shuffle-html-list-element-order
+	*/
 	const shuffleDeck = function() {
-
 		for (let i = cardContainer.children.length; i >= 0; i--) {
 		    cardContainer.appendChild(cardContainer.children[Math.random() * i | 0]);
 		}
 	}
-
 
 	// toggle CSS classes for showing a card
 	const showCard = function(selCard, reqClassOne, reqClassTwo) {
@@ -283,13 +271,7 @@
 		}
 	}
 
-	// stopwatch
-	let seconds = 0,
-			minutes = 0,
-			hours = 0;
-
-	const time = document.getElementById('gameTimer');
-
+	// game time stopwatch
 	const addTime = function() {
 
 		seconds++;
@@ -308,22 +290,36 @@
 		(hours ? (hours > 9 ? hours : "0" + hours) : "00") 
     + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") 
     + ":" + (seconds > 9 ? seconds : "0" + seconds);
+
+    timer();
 	}
 
 	const timer = function() {
-		setTimeout(addTime, 1000);
+		t = setTimeout(addTime, 1000);
 	}
 
-	
-	// Function which removes stars based on user's performance.
+	const clearTimer = function() {
+		time.textContent = "00:00:00";
+		seconds = 0;
+		minutes = 0;
+		hours = 0;
+	}
+
+	const stopTimer = function() {
+		clearTimeout(t);
+	}
+
+	// function which removes stars based on user's performance.
 	const starRating = function() {
 
 		if (movesEl.innerHTML == '8' && matchedCards.length < 8) {
 			stars[2].style.opacity = 0.2;
+			stars[2].classList.add('less-star');
 		} 
 
 		else if (movesEl.innerHTML == '16' && matchedCards.length < 16) {
 			stars[1].style.opacity = 0.2;
+			stars[1].classList.add('less-star');
 		}
 	}
 
@@ -342,10 +338,23 @@
 
 		for (let i = 0; i < stars.length; i++) {
 			stars[i].style.opacity = 1;
+			stars[i].classList.remove('less-star');
 		}
 
 		movesEl.textContent = 0;
+		matchedCards = [];
+		clearTimer();
+		shuffleDeck();
+	}
 
+	// victory message
+	const finalStats = function() {
+		let numStars = document.querySelectorAll('.less-star');
+
+		return {
+			stars: numStars.length,
+			moves: movesEl.innerHTML
+		}
 	}
 
 
@@ -355,24 +364,28 @@
 	//
 	///////////////////////////////////////////
 
-
+	// modal prompting user to begin
 	const readyToPlay = function(e) {
 		
 		const btn = e.target;
 
 		if (btn.nodeName === 'BUTTON') {
+
 			readyModal.classList.add('fadeOut');
+
 			setTimeout(function() {
 				readyModal.style.display = 'none';
+				readyModal.classList.remove('fadeOut');
 			}, 900);
+			
 			timer();
+			shuffleDeck();
 			playGame();
 		}
 		
 	}
 
 	// restart button and corresponding modal
-
 	const resetGame = function() {
 
 		const resetMsg = document.querySelector('.game-reset');
@@ -384,6 +397,33 @@
 		}, 1500);
 	}
 
+	// victory modal
+	const gameFinished = function(e) {
+		const playAgain = document.getElementById('btnPlayAgain'),
+					finished = document.getElementById('btnFinished'),
+					playerStars = document.getElementById('playerStars'),
+					totalMoves = document.getElementById('totalMoves');
+
+		const userStats = finalStats();
+		const stars = userStats.stars;
+		const moves = userStats.moves;
+
+		playerStars.innerHTML = stars;
+		totalMoves.innerHTML = moves;
+		
+		if (e.target === playAgain) {
+			victoryModal.style.display = 'none';
+			reset();
+			playGame();
+			timer();
+		}
+		else if (e.target === finished) {
+			victoryModal.style.display = 'none';
+			reset();
+			readyModal.style.display = 'block';
+		}		
+	}
+
 
 	///////////////////////////////////////////
 	//
@@ -393,6 +433,8 @@
 
 	readyModal.addEventListener('click', readyToPlay);
 	restartBtn.addEventListener('click', resetGame);
+	victoryModal.addEventListener('click', gameFinished);
+
 
 
 	createAndInject();
