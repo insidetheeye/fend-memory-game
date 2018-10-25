@@ -1,6 +1,4 @@
 
-
-
 	///////////////////////////////////////////
 	//
 	// Section: Global Variables
@@ -15,8 +13,7 @@
 				restartBtn = document.getElementById('restartGame'),
 				stars = document.getElementsByClassName('fa-star'),
 				time = document.getElementById('gameTimer'),
-				cardClassList = [],
-				deckArr = [];
+				cardClassList = [];
 
 	let storedCards = [],
 			matchedCards = [],
@@ -314,22 +311,18 @@
 
 		if (movesEl.innerHTML == '8' && matchedCards.length < 8) {
 			stars[2].style.opacity = 0.2;
-			stars[2].classList.add('less-star');
+			stars[2].classList.remove('active');
 		} 
 
 		else if (movesEl.innerHTML == '16' && matchedCards.length < 16) {
 			stars[1].style.opacity = 0.2;
-			stars[1].classList.add('less-star');
+			stars[1].classList.remove('active');
 		}
 	}
 
 	// reset the game
 	const reset = function() {
-		/*
-			Defining the cards variable at the global
-			level wasn't populating the array. Defining
-			locally does...unsure why this is
-		*/
+
 		const cards = [...card];
 
 		for (let i = 0; i < cards.length; i++) {
@@ -338,23 +331,60 @@
 
 		for (let i = 0; i < stars.length; i++) {
 			stars[i].style.opacity = 1;
-			stars[i].classList.remove('less-star');
+			stars[i].classList.add('active');
 		}
 
 		movesEl.textContent = 0;
 		matchedCards = [];
+		storedCards = [];
 		clearTimer();
 		shuffleDeck();
 	}
 
-	// victory message
+	// function which returns a user's final stats (stars, moves, and time)
 	const finalStats = function() {
-		let numStars = document.querySelectorAll('.less-star');
+		let numStars = document.querySelectorAll('.active');
 
 		return {
 			stars: numStars.length,
-			moves: movesEl.innerHTML
+			moves: movesEl.innerHTML,
+			time:  time.innerHTML
 		}
+	}
+
+	/*
+		function which writes out the user's final time. There is a check in
+		place in the case there is a preceding 0 in the seconds, removing it 
+		from the final time.
+	*/
+	const writeTime = function() {
+
+		const userStats = finalStats();
+		const split = userStats.time.split("");
+
+		let timeArray = [],
+				minutes,
+				seconds,
+				finalTime;
+
+		timeArray.push(split);
+
+		if (timeArray[0][3] === '0') {
+
+			minutes = timeArray[0][4];
+			seconds = timeArray[0][6].concat(timeArray[0][7]);
+
+			finalTime = `${minutes} <span>minute(s) and</span> ${seconds} <span>second(s)</span>`;
+
+		} else {
+
+			minutes = timeArray[0][3].concat(timeArray[0][4]);
+			seconds = timeArray[0][6].concat(timeArray[0][7]);
+
+			finalTime = `${minutes} <span>minute(s) and</span> ${seconds} <span>second(s)</span>`;
+		}
+
+		return finalTime;
 	}
 
 
@@ -401,22 +431,19 @@
 	const gameFinished = function(e) {
 		const playAgain = document.getElementById('btnPlayAgain'),
 					finished = document.getElementById('btnFinished'),
-					playerStars = document.getElementById('playerStars'),
-					totalMoves = document.getElementById('totalMoves');
+					userStats = finalStats();
 
-		const userStats = finalStats();
-		const stars = userStats.stars;
-		const moves = userStats.moves;
+		document.getElementById('playerStars').innerHTML = userStats.stars;
+		document.getElementById('totalMoves').innerHTML = userStats.moves;
+		document.getElementById('playerTime').innerHTML = writeTime();
 
-		playerStars.innerHTML = stars;
-		totalMoves.innerHTML = moves;
-		
 		if (e.target === playAgain) {
 			victoryModal.style.display = 'none';
 			reset();
 			playGame();
 			timer();
 		}
+
 		else if (e.target === finished) {
 			victoryModal.style.display = 'none';
 			reset();

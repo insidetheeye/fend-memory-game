@@ -211,6 +211,10 @@ h1 {
     color: #02ccba;
 }
 
+.bold span {
+    color: #000;
+}
+
 /*
  * Animations
  * credit: https://daneden.github.io/animate.css/
