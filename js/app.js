@@ -286,7 +286,10 @@ const showReset = function(bool) {
 	}
 }
 
-// game time stopwatch
+/*
+	game time stopwatch
+	credit: https://jsfiddle.net/Daniel_Hug/pvk6p/
+*/
 const addTime = function() {
 
 	seconds++;
