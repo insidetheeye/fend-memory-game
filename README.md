@@ -8,5 +8,12 @@ The deck is randomly shuffled at game play and reshuffles if the user resets the
 
 I wrote the functionality for this card game using HTML, CSS, and Javascript. Process is as follows:
 
-- using a combination of objects and functions, I wrote the functionality to generate and add each card type to the deck
-- i th
+- write logic which generates the HTML for each card used in the game and add them to the game board
+- compose the game time logic which evaluates if cards match, do not match, and define the game winning condition
+- compose a variety of helper functions which support all aspects of game play (showing cards, matching cards, setting game timer, resetting game, producing modals before, during, and following a win)
+- adding CSS animations to produce a more lively user experience
+
+# Play the Game!
+
+
+
