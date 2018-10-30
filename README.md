@@ -15,5 +15,5 @@ I wrote the functionality for this card game using HTML, CSS, and Javascript. Pr
 
 # Play the Game!
 
-
+<a href="https://insidetheeye.github.io/fend-memory-game/" target="_blank">Play Memory Game here!</a>
 
