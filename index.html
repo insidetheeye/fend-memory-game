@@ -7,6 +7,7 @@
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/animate.css">
 </head>
 <body>
 
@@ -17,68 +18,50 @@
 
         <section class="score-panel">
         	<ul class="stars">
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
+        		<li><i class="fa fa-star active"></i></li>
+        		<li><i class="fa fa-star active"></i></li>
+        		<li><i class="fa fa-star active"></i></li>
         	</ul>
 
-        	<span class="moves">3</span> Moves
+        	<span id="playerMoves" class="moves">0</span> Moves
+          
+          <div class="timer">
+            <time id="gameTimer">00:00:00</time>
+          </div>
 
-            <div class="restart">
+          <div id ="restartGame" class="restart">
         		<i class="fa fa-repeat"></i>
         	</div>
         </section>
 
-        <ul class="deck">
-            <li class="card">
-                <i class="fa fa-diamond"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-paper-plane-o"></i>
-            </li>
-            <li class="card match">
-                <i class="fa fa-anchor"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bolt"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-cube"></i>
-            </li>
-            <li class="card match">
-                <i class="fa fa-anchor"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-leaf"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bicycle"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-diamond"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bomb"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-leaf"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bomb"></i>
-            </li>
-            <li class="card open show">
-                <i class="fa fa-bolt"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bicycle"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-paper-plane-o"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-cube"></i>
-            </li>
-        </ul>
+        <ul id="cardDeck" class="deck"></ul>
+    </div>
+
+    <div class="ready-to-play animated">
+      <div>
+        <h1>Ready to Play?</h1>
+        <button>Let's Do It!</button>
+      </div>
+    </div>
+
+    <div class="victory-modal">
+      <div>
+        <h1>You Won!</h1>
+        <p>You finished the game with a time of 
+          <span id="playerTime" class="bold"></span>, 
+          <span id="playerStars" class="bold"></span> 
+          star(s), and 
+          <span id="totalMoves" class="bold"></span> moves!</p>
+        <button id="btnPlayAgain">Play Again!</button>
+        <button id="btnFinished">I'm Finished Playing</button>
+      </div>
+    </div>
+
+    <div class="game-reset">
+      <div class="animated flipInX fadeOut">
+        <i class="fa fa-repeat"></i>
+        <h1>Game Reset!</h1>
+      </div>
     </div>
 
     <script src="js/app.js"></script>
