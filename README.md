@@ -1,20 +1,12 @@
 # Memory Game Project
 
-## Table of Contents
+Memory game is an interactive card game where a user turns over a card and attempts to find it's match in the deck. If the card is matched, it will stay flipped over. Otherwise, the cards will flip over. The goal is to memorize where certain cards sit in the deck and match each pair until all cards in the deck have been matched.
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+The deck is randomly shuffled at game play and reshuffles if the user resets the game. If the user wins and chooses to play again, the cards are reshuffled as well.
 
-## Instructions
+# Process
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+I wrote the functionality for this card game using HTML, CSS, and Javascript. Process is as follows:
 
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+- using a combination of objects and functions, I wrote the functionality to generate and add each card type to the deck
+- i th
