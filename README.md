@@ -13,6 +13,10 @@ I wrote the functionality for this card game using HTML, CSS, and Javascript. Pr
 - compose a variety of helper functions which support all aspects of game play (showing cards, matching cards, setting game timer, resetting game, producing modals before, during, and following a win)
 - adding CSS animations to produce a more lively user experience
 
+# Project Dependencies
+
+Memory Game utilizes [Animate.css](https://daneden.github.io/animate.css/) for game play animations. 
+
 # Play the Game!
 
 <a href="https://insidetheeye.github.io/fend-memory-game/" target="_blank">Play Memory Game here!</a>
